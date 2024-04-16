@@ -103,8 +103,6 @@ public class MazeSolver {
         }
     }
 
-
-
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
                 maze[row][col] != 'O';
