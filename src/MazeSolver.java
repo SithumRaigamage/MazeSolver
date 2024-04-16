@@ -1,8 +1,6 @@
-
 import java.util.*;
-public class MazeSolver {
 
-    // initialized variables
+public class MazeSolver {
     private char[][] maze;
     private int startRow, startCol, endRow, endCol;
     private int numRows, numCols;
@@ -10,7 +8,6 @@ public class MazeSolver {
     private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     private Point[][] predecessor;
 
-    //constructor
     public MazeSolver(char[][] maze) {
         this.maze = maze;
         this.numRows = maze.length;
@@ -34,6 +31,7 @@ public class MazeSolver {
             }
         }
     }
+
     public boolean solveBFS() {
         Queue<Point> queue = new LinkedList<>();
         queue.offer(new Point(startRow, startCol));
@@ -74,7 +72,7 @@ public class MazeSolver {
         }
         Collections.reverse(path);
         for (Point p : path) {
-            System.out.println("(" + p.x + ", " + p.y + ")");
+            System.out.println("(" + p.y + ", " + p.x + ")");
         }
     }
 
@@ -82,6 +80,4 @@ public class MazeSolver {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
                 maze[row][col] != 'O' && !visited[row][col];
     }
-
-
 }
