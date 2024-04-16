@@ -72,7 +72,7 @@ public class MazeSolver {
     }
 
     private void printPath() {
-        System.out.println("Path from F to S :");
+        System.out.println("Path from S to F:");
         System.out.println(" ");
         LinkedList<Point> path = new LinkedList<>();
         Point current = new Point(endRow, endCol, null);
@@ -82,22 +82,25 @@ public class MazeSolver {
         }
 
         int stepCount = 0;
-        if (!path.isEmpty()) {
-            Point start = path.removeFirst();
-            System.out.println(++stepCount + ". Start at (" + (start.x + 1) + ", " + (start.y + 1) + ")");
-        }
-
-        while (!path.isEmpty()) {
-            Point p = path.removeFirst();
-            String direction = p.direction == null ? "" : "Move " + p.direction.toLowerCase() + " to ";
-            if (!direction.isEmpty()) {  // Ensures that no steps without direction are numbered
-                System.out.println(++stepCount + ". " + direction + "(" + (p.x + 1) + ", " + (p.y + 1) + ")");
+        Point previous = null;
+        for (Point p : path) {
+            if (stepCount == 0) {
+                System.out.println(++stepCount + ". Start at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
             } else {
-                // This block only runs if there's a point with no direction, likely the final step before the destination
-                System.out.println(++stepCount + ". (" + (p.x + 1) + ", " + (p.y + 1) + ")");
+                String direction = (p.direction == null && previous != null) ? "Move " + inferDirection(previous, p) : "Move " + p.direction.toLowerCase();
+                System.out.println(++stepCount + ". " + direction + " to (" + (p.y + 1) + ", " + (p.x + 1) + ")");
             }
+            previous = p;
         }
         System.out.println(++stepCount + ". Done!");
+    }
+
+    private String inferDirection(Point from, Point to) {
+        if (from.x == to.x) {
+            return (from.y < to.y) ? "right" : "left";
+        } else {
+            return (from.x < to.x) ? "down" : "up";
+        }
     }
 
 
