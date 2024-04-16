@@ -1,24 +1,18 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.io.FileNotFoundException;
+
 public class Main {
     public static void main(String[] args) {
-        char[][] maze = {
-                {'.', '.', '.', '.', '.', 'O', '.', '.', '.', 'S'},
-                {'.', '.', '.', '.', 'O', '.', '.', '.', '.', '.'},
-                {'O', '.', '.', '.', '.', '.', 'O', '.', '.', 'O'},
-                {'.', '.', '.', 'O', '.', '.', '.', '.', 'O', '.'},
-                {'.', 'F', '.', '.', '.', '.', '.', '.', 'O', '.'},
-                {'.', 'O', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', 'O', '.', '.'},
-                {'.', 'O', '.', 'O', '.', '.', 'O', '.', '.', 'O'},
-                {'O', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', 'O', 'O', '.', '.', '.', '.', '.', 'O', '.'}
-        };
-
-        MazeSolver solver = new MazeSolver(maze);
-        System.out.println(" ");
-        System.out.println("Breadth-First Search:");
-        solver.solveBFS();
+        try {
+            String filename = "filename.txt"; // Update with the correct path
+            char[][] maze = Parser.parseFile(filename);
+            MazeSolver solver = new MazeSolver(maze);
+            System.out.println("Breadth-First Search:");
+            if (!solver.solveBFS()) {
+                System.out.println("No solution could be found.");
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: File not found.");
+            e.printStackTrace();
+        }
     }
-
 }
