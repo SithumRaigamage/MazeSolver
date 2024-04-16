@@ -72,26 +72,35 @@ public class MazeSolver {
     }
 
     private void printPath() {
-        System.out.println("Path (from start to end):");
-        Stack<Point> path = new Stack<>();
+        System.out.println("Path from F to S :");
+        System.out.println(" ");
+        LinkedList<Point> path = new LinkedList<>();
         Point current = new Point(endRow, endCol, null);
         while (current != null) {
-            path.push(current);
+            path.addFirst(current);
             current = predecessor[current.x][current.y];
         }
 
+        int stepCount = 0;
         if (!path.isEmpty()) {
-            Point start = path.pop();
-            System.out.println("Start at (" + (start.x + 1) + ", " + (start.y + 1) + ")");
+            Point start = path.removeFirst();
+            System.out.println(++stepCount + ". Start at (" + (start.x + 1) + ", " + (start.y + 1) + ")");
         }
 
         while (!path.isEmpty()) {
-            Point p = path.pop();
-            String direction = p.direction == null ? "" : "Move " + p.direction + " to ";
-            System.out.println(direction + "(" + (p.x + 1) + ", " + (p.y + 1) + ")");
+            Point p = path.removeFirst();
+            String direction = p.direction == null ? "" : "Move " + p.direction.toLowerCase() + " to ";
+            if (!direction.isEmpty()) {  // Ensures that no steps without direction are numbered
+                System.out.println(++stepCount + ". " + direction + "(" + (p.x + 1) + ", " + (p.y + 1) + ")");
+            } else {
+                // This block only runs if there's a point with no direction, likely the final step before the destination
+                System.out.println(++stepCount + ". (" + (p.x + 1) + ", " + (p.y + 1) + ")");
+            }
         }
-        System.out.println("Done!");
+        System.out.println(++stepCount + ". Done!");
     }
+
+
 
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&

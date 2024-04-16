@@ -16,6 +16,7 @@ public class Main {
         };
 
         MazeSolver solver = new MazeSolver(maze);
+        System.out.println(" ");
         System.out.println("Breadth-First Search:");
         solver.solveBFS();
     }
