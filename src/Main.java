@@ -16,5 +16,9 @@ public class Main {
                 {'.', 'O', 'O', '.', '.', '.', '.', '.', 'O', '.'}
         };
 
+        MazeSolver solver = new MazeSolver(maze);
+        System.out.println("Breadth-First Search:");
+        solver.solveBFS();
+
     }
 }

@@ -65,12 +65,22 @@ public class MazeSolver {
     }
 
     private void printPath() {
+        System.out.println("Path (from start to end):");
+        List<Point> path = new ArrayList<>();
+        Point current = new Point(endRow, endCol);
+        while (current != null) {
+            path.add(current);
+            current = predecessor[current.x][current.y];
+        }
+        Collections.reverse(path);
+        for (Point p : path) {
+            System.out.println("(" + p.x + ", " + p.y + ")");
+        }
     }
 
-
-
-    private boolean isValid(){
-        
+    private boolean isValid(int row, int col) {
+        return row >= 0 && row < numRows && col >= 0 && col < numCols &&
+                maze[row][col] != 'O' && !visited[row][col];
     }
 
 
