@@ -4,6 +4,12 @@ public class Main {
     private static final String DIRECTORY = "examples/";  // Constant for the directory path
 
     public static void main(String[] args) {
+
+        RunSpecificationExample();
+        ExampleRun();
+    }
+
+    public static void RunSpecificationExample(){
         try {
             String filename = "maze1.txt"; // Update with the correct path
             char[][] maze = Parser.parseFile(filename);
@@ -18,7 +24,7 @@ public class Main {
             e.printStackTrace();
         }
     }
-    public void ExampleRun(){
+    public static void ExampleRun(){
         List<String> filenames = List.of("maze1.txt", "maze2.txt", "maze3.txt"); // List of filenames without directory
 
         for (String filename : filenames) {
