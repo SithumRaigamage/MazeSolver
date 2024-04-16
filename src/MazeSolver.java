@@ -1,12 +1,13 @@
 import java.util.*;
+
 public class MazeSolver {
     private char[][] maze;
     private int startRow, startCol, endRow, endCol;
     private int numRows, numCols;
     private boolean[][] visited;
-    private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     private Point[][] predecessor;
     private String[] dirNames = {"Up", "Down", "Left", "Right"};
+    private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     public MazeSolver(char[][] maze) {
         this.maze = maze;
@@ -48,9 +49,17 @@ public class MazeSolver {
             }
 
             for (int i = 0; i < directions.length; i++) {
-                int newRow = row + directions[i][0];
-                int newCol = col + directions[i][1];
-                if (isValid(newRow, newCol)) {
+                int[] dir = directions[i];
+                int newRow = row;
+                int newCol = col;
+
+                // Slide until an obstacle or border is hit
+                while (isValid(newRow + dir[0], newCol + dir[1])) {
+                    newRow += dir[0];
+                    newCol += dir[1];
+                }
+
+                if (!visited[newRow][newCol]) {
                     queue.offer(new Point(newRow, newCol, dirNames[i]));
                     visited[newRow][newCol] = true;
                     predecessor[newRow][newCol] = current;
@@ -84,10 +93,8 @@ public class MazeSolver {
         System.out.println("Done!");
     }
 
-
-
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
-                maze[row][col] != 'O' && !visited[row][col];
+                maze[row][col] != 'O';
     }
 }
