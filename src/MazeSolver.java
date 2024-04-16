@@ -34,6 +34,44 @@ public class MazeSolver {
             }
         }
     }
+    public boolean solveBFS() {
+        Queue<Point> queue = new LinkedList<>();
+        queue.offer(new Point(startRow, startCol));
+        visited[startRow][startCol] = true;
+
+        while (!queue.isEmpty()) {
+            Point current = queue.poll();
+            int row = current.x;
+            int col = current.y;
+
+            if (row == endRow && col == endCol) {
+                printPath();
+                return true;
+            }
+
+            for (int[] dir : directions) {
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+                if (isValid(newRow, newCol)) {
+                    queue.offer(new Point(newRow, newCol));
+                    visited[newRow][newCol] = true;
+                    predecessor[newRow][newCol] = new Point(row, col);
+                }
+            }
+        }
+
+        System.out.println("No path found.");
+        return false;
+    }
+
+    private void printPath() {
+    }
+
+
+
+    private boolean isValid(){
+        
+    }
 
 
 }
