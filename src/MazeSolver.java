@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class MazeSolver {
     private char[][] maze;
     private int startRow, startCol, endRow, endCol;
@@ -7,6 +6,7 @@ public class MazeSolver {
     private boolean[][] visited;
     private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     private Point[][] predecessor;
+    private String[] dirNames = {"Up", "Down", "Left", "Right"};
 
     public MazeSolver(char[][] maze) {
         this.maze = maze;
@@ -34,7 +34,7 @@ public class MazeSolver {
 
     public boolean solveBFS() {
         Queue<Point> queue = new LinkedList<>();
-        queue.offer(new Point(startRow, startCol));
+        queue.offer(new Point(startRow, startCol, null));
         visited[startRow][startCol] = true;
 
         while (!queue.isEmpty()) {
@@ -47,13 +47,13 @@ public class MazeSolver {
                 return true;
             }
 
-            for (int[] dir : directions) {
-                int newRow = row + dir[0];
-                int newCol = col + dir[1];
+            for (int i = 0; i < directions.length; i++) {
+                int newRow = row + directions[i][0];
+                int newCol = col + directions[i][1];
                 if (isValid(newRow, newCol)) {
-                    queue.offer(new Point(newRow, newCol));
+                    queue.offer(new Point(newRow, newCol, dirNames[i]));
                     visited[newRow][newCol] = true;
-                    predecessor[newRow][newCol] = new Point(row, col);
+                    predecessor[newRow][newCol] = current;
                 }
             }
         }
@@ -64,17 +64,27 @@ public class MazeSolver {
 
     private void printPath() {
         System.out.println("Path (from start to end):");
-        List<Point> path = new ArrayList<>();
-        Point current = new Point(endRow, endCol);
+        Stack<Point> path = new Stack<>();
+        Point current = new Point(endRow, endCol, null);
         while (current != null) {
-            path.add(current);
+            path.push(current);
             current = predecessor[current.x][current.y];
         }
-        Collections.reverse(path);
-        for (Point p : path) {
-            System.out.println("(" + p.y + ", " + p.x + ")");
+
+        if (!path.isEmpty()) {
+            Point start = path.pop();
+            System.out.println("Start at (" + (start.x + 1) + ", " + (start.y + 1) + ")");
         }
+
+        while (!path.isEmpty()) {
+            Point p = path.pop();
+            String direction = p.direction == null ? "" : "Move " + p.direction + " to ";
+            System.out.println(direction + "(" + (p.x + 1) + ", " + (p.y + 1) + ")");
+        }
+        System.out.println("Done!");
     }
+
+
 
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
