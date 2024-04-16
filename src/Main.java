@@ -25,7 +25,11 @@ public class Main {
         }
     }
     public static void ExampleRun(){
-        List<String> filenames = List.of("maze1.txt", "maze2.txt", "maze3.txt"); // List of filenames without directory
+        List<String> filenames = List.of("maze10_1.txt", "maze10_2.txt", "maze10_3.txt","maze10_4.txt"
+                ,"maze10_5.txt","maze15_1.txt","maze15_2.txt","maze15_3.txt","maze15_4.txt","maze10_5.txt",
+                "maze20_1.txt","maze20_2.txt","maze20_3.txt","maze20_4.txt","maze20_5.txt","maze25_1.txt",
+                "maze25_2.txt","maze25_3.txt","maze25_4.txt","maze25_5.txt","maze30_1.txt","maze30_2.txt",
+                "maze30_3.txt","maze30_4.txt","maze30_5.txt"); // List of filenames without directory
 
         for (String filename : filenames) {
             String fullPath = buildFilePath(filename); // Construct full path for each file
