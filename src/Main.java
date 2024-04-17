@@ -1,15 +1,50 @@
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Scanner;
+
 public class Main {
     private static final String DIRECTORY = "examples/";  // Constant for the directory path
     private static String DIRECTORYTwo="benchmark_series/";
 
     public static void main(String[] args) {
 
+        System.out.println("Welcome to MazeSolver ");
+        Scanner input=new Scanner(System.in);
+        System.out.println("Choose of the one options below :");
+        System.out.println(" ");
+        System.out.println("1. Run Specification File");
+        System.out.println("2. Run Example Tests");
+        System.out.println("3. Run BenchMark Tests");
+        System.out.println("4. Exit");
+        System.out.println(" ");
         //RunSpecificationExample();
         //ExampleRun();
-        RunBenchmarkTest();
+        //RunBenchmarkTest();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static void RunSpecificationExample(){
         try {
