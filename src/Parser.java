@@ -24,7 +24,6 @@ public class Parser {
         for (int i = 0; i < lines.size(); i++) {
             maze[i] = lines.get(i).toCharArray();
         }
-
         return maze;
     }
 }
