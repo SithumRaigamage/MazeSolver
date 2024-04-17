@@ -17,9 +17,28 @@ public class Main {
         System.out.println("3. Run BenchMark Tests");
         System.out.println("4. Exit");
         System.out.println(" ");
-        //RunSpecificationExample();
-        //ExampleRun();
-        //RunBenchmarkTest();
+
+        System.out.println();
+        System.out.print("Enter Option :");
+        int option=input.nextInt();
+
+        switch (option){
+            case 1:
+                RunSpecificationExample();
+                break;
+            case 2:
+                ExampleRun();
+                break;
+            case 3:
+                RunBenchmarkTest();
+                break;
+            case 4:
+                System.out.println("Exiting..");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid option. Please choose a number between 1 and 4.");
+        }
     }
 
 
@@ -71,7 +90,7 @@ public class Main {
                 "maze30_3.txt","maze30_4.txt","maze30_5.txt"); // List of filenames without directory
 
         for (String filename : filenames) {
-            String fullPath = buildFilePathTwo(filename); // Construct full path for each file
+            String fullPath = buildFilePath(filename); // Construct full path for each file
             try {
                 char[][] maze = Parser.parseFile(fullPath);
                 MazeSolver solver = new MazeSolver(maze);
