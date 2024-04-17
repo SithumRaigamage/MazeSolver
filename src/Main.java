@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 public class Main {
     private static final String DIRECTORY = "examples/";  // Constant for the directory path
-    private static String DIRECTORYTwo="benchmark.";
+    private static String DIRECTORYTwo="benchmark_series/.";
 
     public static void main(String[] args) {
 
@@ -58,7 +58,8 @@ public class Main {
 
 
     public static void RunBenchmarkTest(){
-        List<String> filenames=List.of("puzzle1.txt");
+        List<String> filenames=List.of("puzzle_10.txt","puzzle_20.txt","puzzle_40.txt","puzzle_80.txt","puzzle_160.txt",
+                "puzzle_320.txt","puzzle_1280.txt","puzzle_2560.txt");
         for (String filename : filenames) {
             String fullPath = buildFilePath(filename); // Construct full path for each file
             try {
@@ -83,7 +84,7 @@ public class Main {
     private static String buildFilePath(String filename) {
         return DIRECTORY + filename;
     }
-    
+
     private static String buildFilePathTwo(String filename) {
         return DIRECTORYTwo +filename;
     }
