@@ -53,16 +53,26 @@ public class MazeSolver {
                 return true;
             }
 
-            for (int[] dir : directions) {
-                int newRow = row + dir[0];
-                int newCol = col + dir[1];
+            for (int i = 0; i < directions.length; i++) {
+                int[] dir = directions[i];
+                int newRow = row;
+                int newCol = col;
 
-                if (isValid(newRow, newCol) && !visited[newRow][newCol]) {
+                // Slide until an obstacle or border is hit
+                while (isValid(newRow + dir[0], newCol + dir[1])) {
+                    newRow += dir[0];
+                    newCol += dir[1];
+                }
+                if (!visited[newRow][newCol]) {
+                    queue.offer(new Coordinates(newRow, newCol, dirNames[i]));
                     visited[newRow][newCol] = true;
                     predecessor[newRow][newCol] = current;
-                    queue.offer(new Coordinates(newRow, newCol, null));
+
                 }
             }
+
+
+
         }
 
         System.out.println("No path found.");
