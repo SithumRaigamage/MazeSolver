@@ -5,7 +5,7 @@ public class MazeSolver {
     private int startRow, startCol, endRow, endCol;
     private int numRows, numCols;
     private boolean[][] visited;
-    private Point[][] predecessor;
+    private Coordinates[][] predecessor;
     private String[] dirNames = {"Up", "Down", "Left", "Right"};
     private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
@@ -14,7 +14,7 @@ public class MazeSolver {
         this.numRows = maze.length;
         this.numCols = maze[0].length;
         this.visited = new boolean[numRows][numCols];
-        this.predecessor = new Point[numRows][numCols];
+        this.predecessor = new Coordinates[numRows][numCols];
         findStartAndEnd();
     }
 
@@ -39,12 +39,12 @@ public class MazeSolver {
     }
 
     public boolean BFS() {
-        Queue<Point> queue = new LinkedList<>();
-        queue.offer(new Point(startRow, startCol, null));
+        Queue<Coordinates> queue = new LinkedList<>();
+        queue.offer(new Coordinates(startRow, startCol, null));
         visited[startRow][startCol] = true;
 
         while (!queue.isEmpty()) {
-            Point current = queue.poll();
+            Coordinates current = queue.poll();
             int row = current.x;
             int col = current.y;
 
@@ -60,7 +60,7 @@ public class MazeSolver {
                 if (isValid(newRow, newCol) && !visited[newRow][newCol]) {
                     visited[newRow][newCol] = true;
                     predecessor[newRow][newCol] = current;
-                    queue.offer(new Point(newRow, newCol, null));
+                    queue.offer(new Coordinates(newRow, newCol, null));
                 }
             }
         }
@@ -79,16 +79,16 @@ public class MazeSolver {
         System.out.println("S Position: (" + (getStartCol() + 1) + ", " + (getStartRow() + 1) + ")");
         System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(" ");
-        LinkedList<Point> path = new LinkedList<>();
-        Point current = new Point(endRow, endCol, null);
+        LinkedList<Coordinates> path = new LinkedList<>();
+        Coordinates current = new Coordinates(endRow, endCol, null);
         while (current != null) {
             path.addFirst(current);
             current = predecessor[current.x][current.y];
         }
 
         int stepCount = 0;
-        Point previous = null;
-        for (Point p : path) {
+        Coordinates previous = null;
+        for (Coordinates p : path) {
             if (stepCount == 0) {
                 System.out.println(++stepCount + ". Start at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
             } else {
@@ -101,7 +101,7 @@ public class MazeSolver {
         System.out.println();
     }
 
-    private String inferDirection(Point from, Point to) {
+    private String inferDirection(Coordinates from, Coordinates to) {
         if (from.x == to.x) {
             return (from.y < to.y) ? "right" : "left";
         } else {
