@@ -38,7 +38,7 @@ public class MazeSolver {
         }
     }
 
-    public boolean solveBFS() {
+    public boolean BFS() {
         Queue<Point> queue = new LinkedList<>();
         queue.offer(new Point(startRow, startCol, null));
         visited[startRow][startCol] = true;

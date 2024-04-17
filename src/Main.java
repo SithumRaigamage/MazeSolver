@@ -48,7 +48,7 @@ public class Main {
             System.out.println(" ");
 
             System.out.println("Breadth-First Search:");
-            if (!solver.solveBFS()) {
+            if (!solver.BFS()) {
                 System.out.println("No solution could be found.");
             }
         } catch (FileNotFoundException e) {
@@ -73,7 +73,7 @@ public class Main {
 
 
                 System.out.println("Breadth-First Search for file: " + fullPath);
-                if (!solver.solveBFS()) {
+                if (!solver.BFS()) {
                     System.out.println("No solution could be found for " + fullPath);
                 }
             } catch (FileNotFoundException e) {
@@ -96,7 +96,7 @@ public class Main {
                 char[][] maze = Parser.parseFile(fullPath);
                 MazeSolver solver = new MazeSolver(maze);
                 System.out.println("Breadth-First Search for file: " + fullPath);
-                if (!solver.solveBFS()) {
+                if (!solver.BFS()) {
                     System.out.println("No solution could be found for " + fullPath);
                 }
             } catch (FileNotFoundException e) {
