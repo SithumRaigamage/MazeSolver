@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     private static final String DIRECTORY = "examples/";  // Constant for the directory path
     private static String DIRECTORYTwo="benchmark_series/";
+    private static String DIRECTORYThree="MyTest/";
 
     public static void main(String[] args) {
 
@@ -15,7 +16,8 @@ public class Main {
         System.out.println("1. Run Specification File");
         System.out.println("2. Run Example Tests");
         System.out.println("3. Run BenchMark Tests");
-        System.out.println("4. Exit");
+        System.out.println("4. Run My TestFiles");
+        System.out.println("5. Exit");
         System.out.println(" ");
 
         System.out.print("Enter Option :");
@@ -32,6 +34,9 @@ public class Main {
                 RunBenchmarkTest();
                 break;
             case 4:
+                RunCustomTest();
+                break;
+            case 5:
                 System.out.println("Exiting..");
                 System.exit(0);
                 break;
@@ -66,7 +71,7 @@ public class Main {
                 "maze30_3.txt","maze30_4.txt","maze30_5.txt"); // List of filenames without directory
 
         for (String filename : filenames) {
-            String fullPath = buildFilePath(filename); // Construct full path for each file
+            String fullPath = buildFilePathForExamples(filename); // Construct full path for each file
             try {
                 char[][] maze = Parser.parseFile(fullPath);
                 MazeSolver solver = new MazeSolver(maze);
@@ -91,7 +96,29 @@ public class Main {
         List<String> filenames=List.of("puzzle_10.txt","puzzle_20.txt","puzzle_40.txt","puzzle_80.txt","puzzle_160.txt",
                 "puzzle_320.txt","puzzle_1280.txt","puzzle_2560.txt");
         for (String filename : filenames) {
-            String fullPath = buildFilePathTwo(filename); // Construct full path for each file
+            String fullPath = buildFilePathForBenchMark(filename); // Construct full path for each file
+            try {
+                char[][] maze = Parser.parseFile(fullPath);
+                MazeSolver solver = new MazeSolver(maze);
+                System.out.println("Breadth-First Search for file: " + fullPath);
+                if (!solver.BFS()) {
+                    System.out.println("No solution could be found for " + fullPath);
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("Error: File not found for " + fullPath);
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("Error processing file " + fullPath + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+            System.out.println(); // Add a newline for better separation between results
+        }
+    }
+
+    public static void RunCustomTest(){
+        List<String> filenames=List.of("test1.txt","test2.txt","test3.txt");
+        for (String filename : filenames) {
+            String fullPath = buildFilePathForMyTest(filename); // Construct full path for each file
             try {
                 char[][] maze = Parser.parseFile(fullPath);
                 MazeSolver solver = new MazeSolver(maze);
@@ -111,11 +138,14 @@ public class Main {
     }
 
     // Helper method to construct the full file path
-    private static String buildFilePath(String filename) {
+    private static String buildFilePathForExamples(String filename) {
         return DIRECTORY + filename;
     }
 
-    private static String buildFilePathTwo(String filename) {
+    private static String buildFilePathForBenchMark(String filename) {
         return DIRECTORYTwo +filename;
+    }
+    private static String buildFilePathForMyTest(String filename) {
+        return DIRECTORYThree +filename;
     }
 }
