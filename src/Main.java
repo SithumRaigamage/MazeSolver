@@ -5,8 +5,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RunSpecificationExample();
-        ExampleRun();
+        //RunSpecificationExample();
+        //ExampleRun();
+        RunBenchmarkTest();
     }
 
     public static void RunSpecificationExample(){
@@ -24,7 +25,9 @@ public class Main {
             e.printStackTrace();
         }
     }
+
     public static void ExampleRun(){
+
         List<String> filenames = List.of("maze10_1.txt", "maze10_2.txt", "maze10_3.txt","maze10_4.txt"
                 ,"maze10_5.txt","maze15_1.txt","maze15_2.txt","maze15_3.txt","maze15_4.txt","maze10_5.txt",
                 "maze20_1.txt","maze20_2.txt","maze20_3.txt","maze20_4.txt","maze20_5.txt","maze25_1.txt",
@@ -50,6 +53,29 @@ public class Main {
             System.out.println(); // Add a newline for better separation between results
         }
     }
+
+    public static void RunBenchmarkTest(){
+        List<String> filenames=List.of("puzzle1.txt");
+        for (String filename : filenames) {
+            String fullPath = buildFilePath(filename); // Construct full path for each file
+            try {
+                char[][] maze = Parser.parseFile(fullPath);
+                MazeSolver solver = new MazeSolver(maze);
+                System.out.println("Breadth-First Search for file: " + fullPath);
+                if (!solver.solveBFS()) {
+                    System.out.println("No solution could be found for " + fullPath);
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("Error: File not found for " + fullPath);
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("Error processing file " + fullPath + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+            System.out.println(); // Add a newline for better separation between results
+        }
+    }
+
     // Helper method to construct the full file path
     private static String buildFilePath(String filename) {
         return DIRECTORY + filename;
