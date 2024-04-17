@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     private static final String DIRECTORY = "examples/";  // Constant for the directory path
-    private static String DIRECTORYTwo="benchmark_series/";
-    private static String DIRECTORYThree="MyTest/";
+    private static final String DIRECTORYTwo="benchmark_series/";
+    private static final String DIRECTORYThree="MyTest/";
 
     public static void main(String[] args) {
 
