@@ -19,20 +19,22 @@ public class MazeSolver {
     }
 
     private void findStartAndEnd() {
+        boolean startFound = false, endFound = false;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 if (maze[i][j] == 'S') {
                     startRow = i;
                     startCol = j;
-                }
-                if (maze[i][j] == 'F') {
+                    startFound = true;
+                } else if (maze[i][j] == 'F') {
                     endRow = i;
                     endCol = j;
+                    endFound = true;
                 }
             }
-            if (startRow == -1 || startCol == -1 || endRow == -1 || endCol == -1) {
-                throw new IllegalStateException("Start or Finish position not found in the maze.");
-            }
+        }
+        if (!startFound || !endFound) {
+            throw new IllegalStateException("Start or Finish position not found in the maze.");
         }
     }
 
@@ -75,7 +77,14 @@ public class MazeSolver {
     }
 
     private void printPath() {
+
         System.out.println("Path from S to F:");
+        System.out.println("");
+        // Outputting maze specifications after displaying the path
+        System.out.println("Maze Width: " + numCols);
+        System.out.println("Maze Height: " + numRows);
+        System.out.println("S Position: (" + (getStartCol() + 1) + ", " + (getStartRow() + 1) + ")");
+        System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(" ");
         LinkedList<Point> path = new LinkedList<>();
         Point current = new Point(endRow, endCol, null);
@@ -96,6 +105,7 @@ public class MazeSolver {
             previous = p;
         }
         System.out.println(++stepCount + ". Done!");
+        System.out.println();
     }
 
     private String inferDirection(Point from, Point to) {
@@ -110,4 +120,21 @@ public class MazeSolver {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
                 maze[row][col] != 'O';
     }
+
+    public int getStartRow() {
+        return startRow;
+    }
+
+    public int getStartCol() {
+        return startCol;
+    }
+
+    public int getEndRow() {
+        return endRow;
+    }
+
+    public int getEndCol() {
+        return endCol;
+    }
+
 }

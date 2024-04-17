@@ -46,6 +46,7 @@ public class Main {
             char[][] maze = Parser.parseFile(filename);
             MazeSolver solver = new MazeSolver(maze);
             System.out.println(" ");
+
             System.out.println("Breadth-First Search:");
             if (!solver.solveBFS()) {
                 System.out.println("No solution could be found.");
@@ -69,6 +70,8 @@ public class Main {
             try {
                 char[][] maze = Parser.parseFile(fullPath);
                 MazeSolver solver = new MazeSolver(maze);
+
+
                 System.out.println("Breadth-First Search for file: " + fullPath);
                 if (!solver.solveBFS()) {
                     System.out.println("No solution could be found for " + fullPath);
