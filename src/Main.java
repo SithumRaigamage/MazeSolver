@@ -41,30 +41,6 @@ public class Main {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public static void RunSpecificationExample(){
         try {
             String filename = "maze1.txt"; // Update with the correct path
@@ -108,8 +84,6 @@ public class Main {
             System.out.println(); // Add a newline for better separation between results
         }
     }
-
-
 
     public static void RunBenchmarkTest(){
         List<String> filenames=List.of("puzzle_10.txt","puzzle_20.txt","puzzle_40.txt","puzzle_80.txt","puzzle_160.txt",
