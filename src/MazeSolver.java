@@ -30,6 +30,9 @@ public class MazeSolver {
                     endCol = j;
                 }
             }
+            if (startRow == -1 || startCol == -1 || endRow == -1 || endCol == -1) {
+                throw new IllegalStateException("Start or Finish position not found in the maze.");
+            }
         }
     }
 

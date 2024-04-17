@@ -18,7 +18,6 @@ public class Main {
         System.out.println("4. Exit");
         System.out.println(" ");
 
-        System.out.println();
         System.out.print("Enter Option :");
         int option=input.nextInt();
 
