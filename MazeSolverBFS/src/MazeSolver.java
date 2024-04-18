@@ -80,7 +80,6 @@ public class MazeSolver {
     }
 
     private void printPath() {
-
         System.out.println("Path from S to F:");
         System.out.println("");
         // Outputting maze specifications after displaying the path
@@ -89,6 +88,18 @@ public class MazeSolver {
         System.out.println("S Position: (" + (getStartCol() + 1) + ", " + (getStartRow() + 1) + ")");
         System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(" ");
+
+        // Printing obstacle indexes
+        System.out.println("Obstacle Indexes:");
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (maze[i][j] == '0') {
+                    System.out.println("(" + (j + 1) + ", " + (i + 1) + ")");
+                }
+            }
+        }
+        System.out.println();
+
         LinkedList<Coordinates> path = new LinkedList<>();
         Coordinates current = new Coordinates(endRow, endCol, null);
         while (current != null) {
@@ -121,7 +132,7 @@ public class MazeSolver {
 
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
-                maze[row][col] != 'O';
+                maze[row][col] != '0';
     }
 
     public int getStartRow() {

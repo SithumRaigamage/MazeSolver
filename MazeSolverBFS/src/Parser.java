@@ -13,8 +13,7 @@ public class Parser {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (!line.isEmpty()) {
-                // Replace '0' with 'O' for obstacles
-                line = line.replace('0', 'O');
+
                 lines.add(line);
             }
         }
