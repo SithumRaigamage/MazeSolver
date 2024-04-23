@@ -48,38 +48,44 @@ public class MazeSolver {
             int row = current.x;
             int col = current.y;
 
+            // Check if the current cell is the destination
             if (row == endRow && col == endCol) {
-                printPath();
+                printPath(current);
                 return true;
             }
 
+            // Consider each direction
             for (int i = 0; i < directions.length; i++) {
                 int[] dir = directions[i];
-                int newRow = row;
+                int newRow = row;  // Initialize newRow and newCol for each direction
                 int newCol = col;
 
                 // Slide until an obstacle or border is hit
                 while (isValid(newRow + dir[0], newCol + dir[1])) {
                     newRow += dir[0];
                     newCol += dir[1];
+
+                    // Check if the destination is reached
+                    if (newRow == endRow && newCol == endCol) {
+                        printPath(current); // Print the path
+                        return true;
+                    }
                 }
+
+                // Check if the new cell is visited and not already in the queue
                 if (!visited[newRow][newCol]) {
                     queue.offer(new Coordinates(newRow, newCol, dirNames[i]));
                     visited[newRow][newCol] = true;
                     predecessor[newRow][newCol] = current;
-
                 }
             }
-
-
-
         }
 
         System.out.println("No path found.");
         return false;
     }
 
-    private void printPath() {
+    private void printPath(Coordinates destination) {
         System.out.println("Path from S to F:");
         System.out.println("");
         // Outputting maze specifications after displaying the path
@@ -101,7 +107,7 @@ public class MazeSolver {
         System.out.println();
 
         LinkedList<Coordinates> path = new LinkedList<>();
-        Coordinates current = new Coordinates(endRow, endCol, null);
+        Coordinates current = destination;
         while (current != null) {
             path.addFirst(current);
             current = predecessor[current.x][current.y];
@@ -118,9 +124,11 @@ public class MazeSolver {
             }
             previous = p;
         }
+        System.out.println(++stepCount + ". Finish at (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(++stepCount + ". Done!");
         System.out.println();
     }
+
 
     private String inferDirection(Coordinates from, Coordinates to) {
         if (from.x == to.x) {
