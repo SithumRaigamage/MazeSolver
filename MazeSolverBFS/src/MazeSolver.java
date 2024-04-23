@@ -8,6 +8,7 @@ public class MazeSolver {
     private Coordinates[][] predecessor;
     private String[] dirNames = {"Up", "Down", "Left", "Right"};
     private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    private long timeTaken;
 
     public MazeSolver(char[][] maze) {
         this.maze = maze;
@@ -39,6 +40,8 @@ public class MazeSolver {
     }
 
     public boolean BFS() {
+        long startTime = System.nanoTime();
+
         Queue<Coordinates> queue = new LinkedList<>();
         queue.offer(new Coordinates(startRow, startCol, null));
         visited[startRow][startCol] = true;
@@ -50,6 +53,7 @@ public class MazeSolver {
 
             // Check if the current cell is the destination
             if (row == endRow && col == endCol) {
+                timeTaken = System.nanoTime() - startTime;
                 printPath(current);
                 return true;
             }
@@ -67,6 +71,7 @@ public class MazeSolver {
 
                     // Check if the destination is reached
                     if (newRow == endRow && newCol == endCol) {
+                        timeTaken = System.nanoTime() - startTime;
                         printPath(current); // Print the path
                         return true;
                     }
@@ -80,12 +85,13 @@ public class MazeSolver {
                 }
             }
         }
-
+        timeTaken = System.nanoTime() - startTime;
         System.out.println("No path found.");
         return false;
     }
 
     private void printPath(Coordinates destination) {
+
         System.out.println("Path from S to F:");
         System.out.println("");
         // Outputting maze specifications after displaying the path
@@ -157,6 +163,9 @@ public class MazeSolver {
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
                 maze[row][col] != '0';
+    }
+    public long getTimeTaken() {
+        return timeTaken;
     }
 
     public int getStartRow() {
