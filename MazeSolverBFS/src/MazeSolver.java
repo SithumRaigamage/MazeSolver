@@ -95,15 +95,26 @@ public class MazeSolver {
         System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(" ");
 
-        // Printing obstacle indexes
+        // Printing obstacle indexes horizontally in a list
         System.out.println("Obstacle Indexes:");
+        StringBuilder obstacleIndexes = new StringBuilder();
+        boolean obstacleFound = false;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 if (maze[i][j] == '0') {
-                    System.out.println("(" + (j + 1) + ", " + (i + 1) + ")");
+                    if (obstacleFound) {
+                        obstacleIndexes.append(", ");
+                    }
+                    obstacleIndexes.append("(").append(j + 1).append(", ").append(i + 1).append(")");
+                    obstacleFound = true;
                 }
             }
         }
+        if (!obstacleFound) {
+            obstacleIndexes.append("None");
+        }
+        System.out.println(obstacleIndexes.toString());
+
         System.out.println();
 
         LinkedList<Coordinates> path = new LinkedList<>();
