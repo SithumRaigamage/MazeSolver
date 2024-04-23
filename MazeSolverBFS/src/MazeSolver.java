@@ -120,14 +120,18 @@ public class MazeSolver {
                 System.out.println(++stepCount + ". Start at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
             } else {
                 String direction = (p.direction == null && previous != null) ? "Move " + inferDirection(previous, p) : "Move " + p.direction.toLowerCase();
-                System.out.println(++stepCount + ". " + direction + " to (" + (p.y + 1) + ", " + (p.x + 1) + ")");
+                if (p.direction == null && previous != null) {
+                    System.out.println(++stepCount + ". Move to " + direction + " at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
+                } else {
+                    System.out.println(++stepCount + ". " + direction + " to (" + (p.y + 1) + ", " + (p.x + 1) + ")");
+                }
             }
             previous = p;
         }
-        System.out.println(++stepCount + ". Finish at (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(++stepCount + ". Done!");
         System.out.println();
     }
+
 
 
     private String inferDirection(Coordinates from, Coordinates to) {
