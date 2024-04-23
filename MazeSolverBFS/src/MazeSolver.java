@@ -38,9 +38,9 @@ public class MazeSolver {
         }
     }
 
-    public boolean BFS() {
-        Queue<Coordinates> queue = new LinkedList<>();
-        queue.offer(new Coordinates(startRow, startCol, null));
+    public boolean AStar() {
+        PriorityQueue<Coordinates> queue = new PriorityQueue<>(Comparator.comparingInt(a -> (a.g + a.h))); // Priority queue based on f = g + h
+        queue.offer(new Coordinates(startRow, startCol, "", 0, calculateHeuristic(startRow, startCol))); // Start node with 0 cost and heuristic value
         visited[startRow][startCol] = true;
 
         while (!queue.isEmpty()) {
@@ -49,44 +49,47 @@ public class MazeSolver {
             int col = current.y;
 
             if (row == endRow && col == endCol) {
-                printPath();
+                printPath(current);
                 return true;
             }
 
             for (int i = 0; i < directions.length; i++) {
                 int[] dir = directions[i];
-                int newRow = row;
-                int newCol = col;
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+                int g = current.g + 1; // Cost to reach this node
 
                 // Slide until an obstacle or border is hit
-                while (isValid(newRow + dir[0], newCol + dir[1])) {
+                while (isValid(newRow, newCol)) {
                     newRow += dir[0];
                     newCol += dir[1];
                 }
-                if (!visited[newRow][newCol]) {
-                    queue.offer(new Coordinates(newRow, newCol, dirNames[i]));
+                newRow -= dir[0]; // Move back one step to the last valid position
+                newCol -= dir[1];
+
+                // Check if the new position is valid and not visited
+                if (isValid(newRow, newCol) && !visited[newRow][newCol]) {
+                    int h = calculateHeuristic(newRow, newCol); // Manhattan distance heuristic
+                    queue.offer(new Coordinates(newRow, newCol, dirNames[i], g, h));
                     visited[newRow][newCol] = true;
                     predecessor[newRow][newCol] = current;
-
                 }
             }
-
-
-
         }
 
         System.out.println("No path found.");
         return false;
     }
 
-    private void printPath() {
+
+    private void printPath(Coordinates finalNode) {
         System.out.println("Path from S to F:");
         System.out.println("");
         // Outputting maze specifications after displaying the path
         System.out.println("Maze Width: " + numCols);
         System.out.println("Maze Height: " + numRows);
-        System.out.println("S Position: (" + (getStartCol() + 1) + ", " + (getStartRow() + 1) + ")");
-        System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
+        System.out.println("S Position: (" + (startCol + 1) + ", " + (startRow + 1) + ")");
+        System.out.println("F Position: (" + (endCol + 1) + ", " + (endRow + 1) + ")");
         System.out.println(" ");
 
         // Printing obstacle indexes
@@ -101,7 +104,7 @@ public class MazeSolver {
         System.out.println();
 
         LinkedList<Coordinates> path = new LinkedList<>();
-        Coordinates current = new Coordinates(endRow, endCol, null);
+        Coordinates current = finalNode;
         while (current != null) {
             path.addFirst(current);
             current = predecessor[current.x][current.y];
@@ -130,25 +133,27 @@ public class MazeSolver {
         }
     }
 
+    private int calculateHeuristic(int row, int col) {
+        return Math.abs(row - endRow) + Math.abs(col - endCol);
+    }
+
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
                 maze[row][col] != '0';
     }
 
-    public int getStartRow() {
-        return startRow;
-    }
+    private static class Coordinates {
+        int x, y;
+        String direction;
+        int g; // Cost to reach this node
+        int h; // Heuristic (estimated cost to the goal)
 
-    public int getStartCol() {
-        return startCol;
+        Coordinates(int x, int y, String direction, int g, int h) {
+            this.x = x;
+            this.y = y;
+            this.direction = direction;
+            this.g = g;
+            this.h = h;
+        }
     }
-
-    public int getEndRow() {
-        return endRow;
-    }
-
-    public int getEndCol() {
-        return endCol;
-    }
-
 }
