@@ -95,52 +95,42 @@ public class MazeSolver {
         System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(" ");
 
-        // Printing obstacle indexes
-        System.out.println("Obstacle Indexes:");
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                if (maze[i][j] == '0') {
-                    System.out.println("(" + (j + 1) + ", " + (i + 1) + ")");
-                }
-            }
-        }
-        System.out.println();
-
         LinkedList<Coordinates> path = new LinkedList<>();
         Coordinates current = destination;
-        while (current != null) {
+        while (current != null && !(current.x == getStartRow() && current.y == getStartCol())) {
             path.addFirst(current);
             current = predecessor[current.x][current.y];
         }
-
-        int stepCount = 0;
-        Coordinates previous = null;
-        for (Coordinates p : path) {
-            if (stepCount == 0) {
-                System.out.println(++stepCount + ". Start at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
-            } else {
-                String direction = (p.direction == null && previous != null) ? "Move " + inferDirection(previous, p) : "Move " + p.direction.toLowerCase();
-                if (p.direction == null && previous != null) {
-                    System.out.println(++stepCount + ". Move to " + direction + " at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
-                } else {
-                    System.out.println(++stepCount + ". " + direction + " to (" + (p.y + 1) + ", " + (p.x + 1) + ")");
-                }
-            }
-            previous = p;
+        // Print the start cell index
+        System.out.println("(" + (getStartCol() + 1) + ", " + (getStartRow() + 1) + ")");
+        // Print the path
+        for (Coordinates coord : path) {
+            System.out.println("(" + (coord.y + 1) + ", " + (coord.x + 1) + ")");
         }
-        System.out.println(++stepCount + ". Done!");
-        System.out.println();
+        // Print the finish cell index
+        System.out.println("(" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
     }
-
-
 
     private String inferDirection(Coordinates from, Coordinates to) {
-        if (from.x == to.x) {
-            return (from.y < to.y) ? "right" : "left";
+        int dx = to.x - from.x;
+        int dy = to.y - from.y;
+
+        if (dx == -1 && dy == 0) {
+            return "Up";
+        } else if (dx == 1 && dy == 0) {
+            return "Down";
+        } else if (dx == 0 && dy == -1) {
+            return "Left";
+        } else if (dx == 0 && dy == 1) {
+            return "Right";
         } else {
-            return (from.x < to.x) ? "down" : "up";
+            // Handle invalid direction
+            return "Unknown";
         }
     }
+
+
+
 
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
