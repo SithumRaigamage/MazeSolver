@@ -128,6 +128,7 @@ public class MazeSolver {
             }
             previous = p;
         }
+        System.out.println(++stepCount + ". Move to (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(++stepCount + ". Done!");
         System.out.println();
     }
