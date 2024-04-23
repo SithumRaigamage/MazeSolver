@@ -65,7 +65,11 @@ public class MazeSolver {
                     newRow += dir[0];
                     newCol += dir[1];
 
-
+                    // Check if the destination is reached
+                    if (newRow == endRow && newCol == endCol) {
+                        printPath(current); // Print the path
+                        return true;
+                    }
                 }
 
                 // Check if the new cell is visited and not already in the queue
@@ -91,42 +95,52 @@ public class MazeSolver {
         System.out.println("F Position: (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
         System.out.println(" ");
 
-        Stack<Coordinates> path = new Stack<>();
-        // Construct the path from destination to start
+        // Printing obstacle indexes
+        System.out.println("Obstacle Indexes:");
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (maze[i][j] == '0') {
+                    System.out.println("(" + (j + 1) + ", " + (i + 1) + ")");
+                }
+            }
+        }
+        System.out.println();
+
+        LinkedList<Coordinates> path = new LinkedList<>();
         Coordinates current = destination;
         while (current != null) {
-            path.push(current);
+            path.addFirst(current);
             current = predecessor[current.x][current.y];
         }
 
-        if (!path.isEmpty()) {
-            Coordinates start = path.pop();
-            System.out.println("Start at (" + (start.y + 1) + ", " + (start.x + 1) + ")");
+        int stepCount = 0;
+        Coordinates previous = null;
+        for (Coordinates p : path) {
+            if (stepCount == 0) {
+                System.out.println(++stepCount + ". Start at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
+            } else {
+                String direction = (p.direction == null && previous != null) ? "Move " + inferDirection(previous, p) : "Move " + p.direction.toLowerCase();
+                if (p.direction == null && previous != null) {
+                    System.out.println(++stepCount + ". Move to " + direction + " at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
+                } else {
+                    System.out.println(++stepCount + ". " + direction + " to (" + (p.y + 1) + ", " + (p.x + 1) + ")");
+                }
+            }
+            previous = p;
         }
-
-        int stepCount = 1;
-        while (!path.isEmpty()) {
-            Coordinates p = path.pop();
-            String direction = p.direction == null ? "" : "Move " + p.direction + " to ";
-            System.out.println(stepCount + ". " + direction + "(" + (p.y + 1) + ", " + (p.x + 1) + ")");
-            stepCount++;
-        }
-        System.out.println(stepCount+". "+"Done!");
+        System.out.println(++stepCount + ". Done!");
+        System.out.println();
     }
 
 
-    private String inferDirection(Coordinates from, Coordinates to) {
-        if (from == null || to == null) {
-            return ""; // or handle null case appropriately
-        }
 
+    private String inferDirection(Coordinates from, Coordinates to) {
         if (from.x == to.x) {
             return (from.y < to.y) ? "right" : "left";
         } else {
             return (from.x < to.x) ? "down" : "up";
         }
     }
-
 
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
