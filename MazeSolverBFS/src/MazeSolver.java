@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class MazeSolver {
+    //variables
     private char[][] maze;
     private int startRow, startCol, endRow, endCol;
     private int numRows, numCols;
@@ -10,6 +11,7 @@ public class MazeSolver {
     private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     private long timeTaken;
 
+    //constructor
     public MazeSolver(char[][] maze) {
         this.maze = maze;
         this.numRows = maze.length;
@@ -19,14 +21,17 @@ public class MazeSolver {
         findStartAndEnd();
     }
 
+    //finding the position of S and F by iterating through a loop
     private void findStartAndEnd() {
         boolean startFound = false, endFound = false;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
+                //condition for finding S
                 if (maze[i][j] == 'S') {
                     startRow = i;
                     startCol = j;
                     startFound = true;
+                    //condition for finding S
                 } else if (maze[i][j] == 'F') {
                     endRow = i;
                     endCol = j;
@@ -34,18 +39,22 @@ public class MazeSolver {
                 }
             }
         }
+        //error throwing if not found S an F
         if (!startFound || !endFound) {
             throw new IllegalStateException("Start or Finish position not found in the maze.");
         }
     }
 
-    public boolean BFS() {
+    //bfs algorithm to find the shortest path using the logic sliding
+    public boolean BFSMethod() {
         long startTime = System.nanoTime();
 
+        //initialized a linked list to add the coordinates
         Queue<Coordinates> queue = new LinkedList<>();
         queue.offer(new Coordinates(startRow, startCol, null));
         visited[startRow][startCol] = true;
 
+        //checking the queue is not empty
         while (!queue.isEmpty()) {
             Coordinates current = queue.poll();
             int row = current.x;
@@ -53,6 +62,7 @@ public class MazeSolver {
 
             // Check if the current cell is the destination
             if (row == endRow && col == endCol) {
+                //start the time for calculating time complexity
                 timeTaken = System.nanoTime() - startTime;
                 printPath(current);
                 return true;
@@ -71,8 +81,10 @@ public class MazeSolver {
 
                     // Check if the destination is reached
                     if (newRow == endRow && newCol == endCol) {
+                        //stop the time for calculating time complexity
                         timeTaken = System.nanoTime() - startTime;
-                        printPath(current); // Print the path
+                        // Print the path
+                        printPath(current);
                         return true;
                     }
                 }
@@ -85,16 +97,17 @@ public class MazeSolver {
                 }
             }
         }
+        //get the time
         timeTaken = System.nanoTime() - startTime;
         System.out.println("No path found.");
         return false;
     }
-
+    //print method for printing columns/rows/S position/F position/obstacles and shortest path
     private void printPath(Coordinates destination) {
 
         System.out.println("Path from S to F:");
         System.out.println("");
-        // Outputting maze specifications after displaying the path
+        // Outputting maze specifications before displaying the path
         System.out.println("Maze Width: " + numCols);
         System.out.println("Maze Height: " + numRows);
         System.out.println("S Position: (" + (getStartCol() + 1) + ", " + (getStartRow() + 1) + ")");
@@ -120,9 +133,9 @@ public class MazeSolver {
             obstacleIndexes.append("None");
         }
         System.out.println(obstacleIndexes.toString());
-
         System.out.println();
 
+        //linked for getting the coordinates
         LinkedList<Coordinates> path = new LinkedList<>();
         Coordinates current = destination;
         while (current != null) {
@@ -134,9 +147,11 @@ public class MazeSolver {
         Coordinates previous = null;
         for (Coordinates p : path) {
             if (stepCount == 0) {
+                //start position
                 System.out.println(++stepCount + ". Start at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
             } else {
-                String direction = (p.direction == null && previous != null) ? "Move " + inferDirection(previous, p) : "Move " + p.direction.toLowerCase();
+                //printing between coordinates
+                String direction = (p.direction == null && previous != null) ? "Move " + DirectionOfMovement(previous, p) : "Move " + p.direction.toLowerCase();
                 if (p.direction == null && previous != null) {
                     System.out.println(++stepCount + ". Move to " + direction + " at (" + (p.y + 1) + ", " + (p.x + 1) + ")");
                 } else {
@@ -145,41 +160,47 @@ public class MazeSolver {
             }
             previous = p;
         }
+        //printing F index
         System.out.println(++stepCount + ". Move to (" + (getEndCol() + 1) + ", " + (getEndRow() + 1) + ")");
+        //print with count
         System.out.println(++stepCount + ". Done!");
         System.out.println();
     }
 
-
-
-    private String inferDirection(Coordinates from, Coordinates to) {
+    private String DirectionOfMovement(Coordinates from, Coordinates to) {
+        //direction according to the index
         if (from.x == to.x) {
+            //directions
             return (from.y < to.y) ? "right" : "left";
         } else {
+            //directions
             return (from.x < to.x) ? "down" : "up";
         }
     }
 
+    //valid method for checking the index bound of the array
     private boolean isValid(int row, int col) {
         return row >= 0 && row < numRows && col >= 0 && col < numCols &&
                 maze[row][col] != '0';
     }
+
+    //getter method for returning the time
     public long getTimeTaken() {
         return timeTaken;
     }
-
+    //getter method for returning the startRow
     public int getStartRow() {
         return startRow;
     }
-
+    //getter method for returning the StartColumn
     public int getStartCol() {
         return startCol;
     }
-
+    //getter method for returning the EndRow
     public int getEndRow() {
         return endRow;
     }
-
+    //getter method for returning the EndColumn
     public int getEndCol() {
         return endCol;
     }

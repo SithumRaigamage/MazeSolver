@@ -1,3 +1,4 @@
+//imports
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -5,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Parser {
+    //file method to read the pattern from the file using scanner class
     public static char[][] parseFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner scanner = new Scanner(file);
@@ -13,16 +15,16 @@ public class Parser {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (!line.isEmpty()) {
-
                 lines.add(line);
             }
         }
         scanner.close();
-
-        char[][] maze = new char[lines.size()][];
+        //adding to the maze
+        char[][] mazePattern = new char[lines.size()][];
         for (int i = 0; i < lines.size(); i++) {
-            maze[i] = lines.get(i).toCharArray();
+            mazePattern[i] = lines.get(i).toCharArray();
         }
-        return maze;
+        //returning the maze pattern
+        return mazePattern;
     }
 }

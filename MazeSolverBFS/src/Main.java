@@ -1,5 +1,4 @@
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -20,18 +19,21 @@ public class Main {
 
         System.out.print("Enter Option :");
         int option=input.nextInt();
-
         switch (option){
             case 1:
+                //run specification example
                 RunSpecificationExample();
                 break;
             case 2:
+                //run examples folder
                 ExampleRun();
                 break;
             case 3:
+                //run benchmark test
                 RunBenchmarkTest();
                 break;
             case 4:
+                //run custom test
                 RunCustomTest();
                 break;
             case 5:
@@ -47,13 +49,13 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter the file name for (e.g., maze1.txt): ");
         String filename = input.nextLine();
+        // Construct full path for each file
         try {
-            char[][] maze = Parser.parseFile(filename);
-            MazeSolver solver = new MazeSolver(maze);
+            char[][] mazePath = Parser.parseFile(filename);
+            MazeSolver solver = new MazeSolver(mazePath);
             System.out.println(" ");
-
             System.out.println("Breadth-First Search:");
-            if (!solver.BFS()) {
+            if (!solver.BFSMethod()) {
                 System.out.println("No solution could be found.");
             }
             System.out.println("Time taken: " + solver.getTimeTaken() + " nanoseconds");
@@ -65,16 +67,16 @@ public class Main {
 
     public static void ExampleRun(){
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter the file name : ");
+        System.out.print("Enter the file name in the example directory : ");
         String filename = input.nextLine();
         String fullPath ="examples/"+filename ;
          // Construct full path for each file
         try {
-            char[][] maze = Parser.parseFile(fullPath);
-            MazeSolver solver = new MazeSolver(maze);
+            char[][] mazePath = Parser.parseFile(fullPath);
+            MazeSolver solver = new MazeSolver(mazePath);
 
             System.out.println("Breadth-First Search for file: " + fullPath);
-            if (!solver.BFS()) {
+            if (!solver.BFSMethod()) {
                 System.out.println("No solution could be found for " + fullPath);
             }
             System.out.println("Time taken: " + solver.getTimeTaken() + " nanoseconds");
@@ -92,14 +94,15 @@ public class Main {
     public static void RunBenchmarkTest(){
 
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter the file name : ");
+        System.out.print("Enter the file name in the benchmark directory: ");
         String filename = input.nextLine();
-        String fullPath ="benchmark_series/"+filename;  // Construct full path for each file
+        String fullPath ="benchmark_series/"+filename;
+        // Construct full path for each file
         try {
-            char[][] maze = Parser.parseFile(fullPath);
-            MazeSolver solver = new MazeSolver(maze);
+            char[][] mazePath = Parser.parseFile(fullPath);
+            MazeSolver solver = new MazeSolver(mazePath);
             System.out.println("Breadth-First Search for file: " + fullPath);
-            if (!solver.BFS()) {
+            if (!solver.BFSMethod()) {
                 System.out.println("No solution could be found for " + fullPath);
             }
             System.out.println("Time taken: " + solver.getTimeTaken() + " nanoseconds");
@@ -116,14 +119,15 @@ public class Main {
 
     public static void RunCustomTest(){
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter the file name : ");
+        System.out.print("Enter the file name in myTest directory: ");
         String filename = input.nextLine();
-        String fullPath ="MyTest/"+filename;  // Construct full path for each file
+        String fullPath ="MyTest/"+filename;
+        // Construct full path for each file
         try {
-            char[][] maze = Parser.parseFile(fullPath);
-            MazeSolver solver = new MazeSolver(maze);
+            char[][] mazePath = Parser.parseFile(fullPath);
+            MazeSolver solver = new MazeSolver(mazePath);
             System.out.println("Breadth-First Search for file: " + fullPath);
-            if (!solver.BFS()) {
+            if (!solver.BFSMethod()) {
                 System.out.println("No solution could be found for " + fullPath);
             }
             System.out.println("Time taken: " + solver.getTimeTaken() + " nanoseconds");
@@ -135,7 +139,6 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println(); // Add a newline for better separation between results
-
     }
 
 
