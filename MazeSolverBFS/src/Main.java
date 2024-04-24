@@ -1,6 +1,9 @@
+//Name -Sithum Lisitha Raigamage
+//IIT student No -20222473
+//UOW student No -w1999685
+
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-
 public class Main {
     public static Scanner input = new Scanner(System.in);
 

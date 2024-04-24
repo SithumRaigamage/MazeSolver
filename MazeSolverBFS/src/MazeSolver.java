@@ -1,5 +1,8 @@
-import java.util.*;
+//Name -Sithum Lisitha Raigamage
+//IIT student No -20222473
+//UOW student No -w1999685
 
+import java.util.*;
 public class MazeSolver {
     //variables
     private char[][] maze;
